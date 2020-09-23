@@ -1,0 +1,239 @@
+VERSION 5.00
+Begin VB.PropertyPage pagHighlightColumn 
+   Caption         =   "Column Highliting"
+   ClientHeight    =   2835
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   7320
+   PaletteMode     =   0  '¹Ý¸í¾Ï
+   ScaleHeight     =   2835
+   ScaleWidth      =   7320
+   Begin VB.Frame fraHighlightColumn 
+      Caption         =   "Column Highlighting"
+      Height          =   2535
+      Left            =   180
+      TabIndex        =   0
+      Top             =   180
+      Width           =   6915
+      Begin VB.CommandButton cmdDo 
+         Caption         =   "Revert to Defaullt"
+         Height          =   285
+         Index           =   0
+         Left            =   2760
+         TabIndex        =   10
+         Top             =   2130
+         Width           =   1725
+      End
+      Begin VB.ComboBox cboProp 
+         Height          =   300
+         Index           =   2
+         Left            =   2760
+         Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+         TabIndex        =   8
+         Top             =   1710
+         Width           =   4000
+      End
+      Begin VB.ComboBox cboProp 
+         Height          =   300
+         Index           =   1
+         Left            =   2760
+         Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+         TabIndex        =   6
+         Top             =   1320
+         Width           =   4000
+      End
+      Begin VB.TextBox txtProp 
+         Height          =   280
+         Index           =   0
+         Left            =   2760
+         TabIndex        =   4
+         Top             =   570
+         Width           =   2175
+      End
+      Begin VB.ComboBox cboProp 
+         Height          =   300
+         Index           =   0
+         Left            =   2760
+         Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+         TabIndex        =   2
+         Top             =   930
+         Width           =   4000
+      End
+      Begin VB.CheckBox chkProp 
+         Caption         =   "Hightlight Column(&H)"
+         Height          =   210
+         Index           =   0
+         Left            =   210
+         TabIndex        =   1
+         Top             =   330
+         Width           =   2115
+      End
+      Begin VB.Label lblProp 
+         AutoSize        =   -1  'True
+         Caption         =   "SizingType(&S):"
+         Height          =   180
+         Index           =   3
+         Left            =   210
+         TabIndex        =   9
+         Top             =   1770
+         Width           =   1290
+      End
+      Begin VB.Label lblProp 
+         AutoSize        =   -1  'True
+         Caption         =   "HighlightColor(&L):"
+         Height          =   180
+         Index           =   2
+         Left            =   210
+         TabIndex        =   7
+         Top             =   1380
+         Width           =   1485
+      End
+      Begin VB.Label lblProp 
+         AutoSize        =   -1  'True
+         Caption         =   "DefaultColor(&D):"
+         Height          =   180
+         Index           =   1
+         Left            =   210
+         TabIndex        =   5
+         Top             =   990
+         Width           =   1350
+      End
+      Begin VB.Label lblProp 
+         AutoSize        =   -1  'True
+         Caption         =   "CurrrentHighlightColumn(&C):"
+         Height          =   180
+         Index           =   0
+         Left            =   210
+         TabIndex        =   3
+         Top             =   630
+         Width           =   2400
+      End
+   End
+End
+Attribute VB_Name = "pagHighlightColumn"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+Private m_ListViewEx As ListViewEditable
+
+Private Sub cboProp_Click(Index As Integer)
+   
+   With cboProp(Index)
+      PropertyPage.Changed = ChangeTag(cboProp(Index), .ItemData(.ListIndex))
+   End With
+   
+End Sub
+
+Private Sub chkProp_Click(Index As Integer)
+   
+   With chkProp(Index)
+      PropertyPage.Changed = ChangeTag(chkProp(Index), Abs(.Value))
+      Select Case Index
+      Case 0
+         Dim ctl As Object
+         For Each ctl In PropertyPage.Controls
+            If ctl.Name <> "chkProp" And ctl.Name <> "fraHighlightColumn" Then
+               ctl.Enabled = Abs(.Value)
+            End If
+         Next ctl
+      End Select
+   End With
+End Sub
+
+Private Sub cmdDo_Click(Index As Integer)
+   Select Case Index
+   Case 0 'Revert to default
+      cboProp(0).ListIndex = 7
+      cboProp(1).ListIndex = 3
+      cboProp(2).ListIndex = 2
+      txtProp(0).Text = 1
+   End Select
+End Sub
+
+Private Sub txtProp_Change(Index As Integer)
+   With txtProp(Index)
+      PropertyPage.Changed = ChangeTag(txtProp(Index), .Text)
+   End With
+End Sub
+
+
+Private Sub PropertyPage_ApplyChanges()
+   Dim i As Long
+   Dim Ctrl As Control
+   For Each Ctrl In PropertyPage.Controls
+      With Ctrl
+         Select Case Ctrl.Name
+         Case "cboProp"
+            If Len(.Tag) > 0 Then
+               If IsChanged(Ctrl) Then
+                   'Debug.Print .Name & "(" & .Index & ") NewValue=" & GetNewValue(Ctrl)
+                  Select Case .Index
+                  Case 0: m_ListViewEx.DefaultColor = Val(GetNewValue(Ctrl))
+                  Case 1: m_ListViewEx.HighlightColor = Val(GetNewValue(Ctrl))
+                  Case 2: m_ListViewEx.SizingType = Val(GetNewValue(Ctrl))
+                  End Select
+               End If
+            End If
+         Case "chkProp"
+            If Len(.Tag) > 0 Then
+               If IsChanged(Ctrl) Then
+                  Select Case .Index
+                  Case 0: m_ListViewEx.HighlightColumn = Val(GetNewValue(Ctrl))
+                  End Select
+               End If
+            End If
+         Case "txtProp"
+            If Len(.Tag) > 0 Then
+               If IsChanged(Ctrl) Then
+                  Select Case .Index
+                  Case 0: m_ListViewEx.CurrrentHighlightColumn = Val(GetNewValue(Ctrl))
+                  End Select
+               End If
+            End If
+         End Select
+      End With
+   Next
+   
+   'm_ListViewEx.HighlightColumn = Abs(chkProp(0).Value)
+End Sub
+
+Private Sub PropertyPage_SelectionChanged()
+   On Error GoTo Bye
+   Debug.Print TypeName(Me) & " - PropertyPage_SelectionChanged"
+   Set m_ListViewEx = PropertyPage.SelectedControls(0)
+   If ObjPtr(m_ListViewEx) = 0 Then
+      Exit Sub
+   End If
+   
+   With m_ListViewEx
+      
+      'ComboBox
+      LoadeLedgerColours cboProp(0), .DefaultColor
+      LoadeLedgerColours cboProp(1), .HighlightColor
+      LoadeImageSizingTypes cboProp(2), .SizingType
+      
+      'TextBox
+      LoadTextBox txtProp(0), .CurrrentHighlightColumn
+      
+      'CheckBox
+      LoadCheckBox chkProp(0), Abs(.HighlightColumn)
+   End With
+   
+   Dim ctl As Object
+   For Each ctl In PropertyPage.Controls
+      If ctl.Name <> "chkProp" And ctl.Name <> "fraHighlightColumn" Then
+         ctl.Enabled = Abs(chkProp(0).Value)
+      End If
+   Next ctl
+   DoEvents
+   
+   Exit Sub
+Bye:
+   'Debug.Print Err.Number & ":" & Err.Description
+   'Debug.Assert 0
+   'Err.Raise Err.Number
+   MsgBox Err.Description
+End Sub
+

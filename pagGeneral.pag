@@ -1,0 +1,441 @@
+VERSION 5.00
+Begin VB.PropertyPage pagGeneral 
+   Caption         =   "General"
+   ClientHeight    =   4500
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   7125
+   PaletteMode     =   0  '¹Ý¸í¾Ï
+   ScaleHeight     =   4500
+   ScaleWidth      =   7125
+   Begin VB.CheckBox chkProp 
+      Caption         =   "HideColumnHeaders"
+      Height          =   210
+      Index           =   11
+      Left            =   4680
+      TabIndex        =   31
+      Top             =   2880
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "Visible"
+      Height          =   210
+      Index           =   17
+      Left            =   1740
+      TabIndex        =   30
+      Top             =   2970
+      Visible         =   0   'False
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "Enabled"
+      Height          =   210
+      Index           =   16
+      Left            =   4680
+      TabIndex        =   29
+      Top             =   1680
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "SubitemSelect"
+      Height          =   210
+      Index           =   15
+      Left            =   4680
+      TabIndex        =   28
+      Top             =   4080
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "MultiSelect"
+      Height          =   210
+      Index           =   14
+      Left            =   4680
+      TabIndex        =   27
+      Top             =   3840
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "HoverSelection"
+      Height          =   210
+      Index           =   13
+      Left            =   4680
+      TabIndex        =   26
+      Top             =   3600
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "HotTracking"
+      Height          =   210
+      Index           =   12
+      Left            =   4680
+      TabIndex        =   25
+      Top             =   3360
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "HideSelection"
+      Height          =   210
+      Index           =   10
+      Left            =   4680
+      TabIndex        =   24
+      Top             =   3120
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "GridLines"
+      Height          =   210
+      Index           =   9
+      Left            =   4680
+      TabIndex        =   23
+      Top             =   2640
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "FullRowSelect"
+      Height          =   210
+      Index           =   8
+      Left            =   4680
+      TabIndex        =   22
+      Top             =   2400
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "FlatScrollBar"
+      Height          =   210
+      Index           =   7
+      Left            =   4680
+      TabIndex        =   21
+      Top             =   2160
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "FlatHeader"
+      Height          =   210
+      Index           =   6
+      Left            =   4680
+      TabIndex        =   20
+      Top             =   1920
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "Checkboxes"
+      Height          =   210
+      Index           =   5
+      Left            =   4680
+      TabIndex        =   19
+      Top             =   1440
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "AutoTooltip"
+      Height          =   210
+      Index           =   4
+      Left            =   4680
+      TabIndex        =   18
+      Top             =   1200
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "AutoPopupMenu"
+      Height          =   210
+      Index           =   3
+      Left            =   4680
+      TabIndex        =   17
+      Top             =   960
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "AutoDeselect"
+      Height          =   210
+      Index           =   2
+      Left            =   4680
+      TabIndex        =   16
+      Top             =   720
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "AllowItemEdit"
+      Height          =   210
+      Index           =   1
+      Left            =   4680
+      TabIndex        =   15
+      Top             =   480
+      Width           =   2145
+   End
+   Begin VB.CheckBox chkProp 
+      Caption         =   "AllowColumnReorder"
+      Height          =   210
+      Index           =   0
+      Left            =   4680
+      TabIndex        =   14
+      Top             =   240
+      Width           =   2145
+   End
+   Begin VB.ComboBox cboProp 
+      Height          =   300
+      Index           =   7
+      Left            =   1740
+      Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+      TabIndex        =   12
+      Top             =   2370
+      Visible         =   0   'False
+      Width           =   2355
+   End
+   Begin VB.ComboBox cboProp 
+      Height          =   300
+      Index           =   6
+      Left            =   1740
+      Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+      TabIndex        =   10
+      Top             =   2010
+      Visible         =   0   'False
+      Width           =   2355
+   End
+   Begin VB.ComboBox cboProp 
+      Height          =   300
+      Index           =   5
+      Left            =   1740
+      Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+      TabIndex        =   8
+      Top             =   1650
+      Width           =   2355
+   End
+   Begin VB.ComboBox cboProp 
+      Height          =   300
+      Index           =   4
+      Left            =   1740
+      Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+      TabIndex        =   6
+      Top             =   1290
+      Width           =   2355
+   End
+   Begin VB.ComboBox cboProp 
+      Height          =   300
+      Index           =   2
+      Left            =   1740
+      Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+      TabIndex        =   4
+      Top             =   930
+      Width           =   2355
+   End
+   Begin VB.ComboBox cboProp 
+      Height          =   300
+      Index           =   1
+      Left            =   1740
+      Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+      TabIndex        =   2
+      Top             =   570
+      Width           =   2355
+   End
+   Begin VB.ComboBox cboProp 
+      Height          =   300
+      Index           =   0
+      Left            =   1740
+      Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+      TabIndex        =   1
+      Top             =   210
+      Width           =   2355
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "OLEDropMode(&O):"
+      Height          =   180
+      Index           =   7
+      Left            =   120
+      TabIndex        =   13
+      Top             =   2460
+      Visible         =   0   'False
+      Width           =   1575
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "OLEDragMode(&G):"
+      Height          =   180
+      Index           =   6
+      Left            =   120
+      TabIndex        =   11
+      Top             =   2100
+      Visible         =   0   'False
+      Width           =   1575
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "Appreance(&P):"
+      Height          =   180
+      Index           =   5
+      Left            =   120
+      TabIndex        =   9
+      Top             =   1740
+      Width           =   1245
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "BorderStyle(&B):"
+      Height          =   180
+      Index           =   4
+      Left            =   120
+      TabIndex        =   7
+      Top             =   1380
+      Width           =   1305
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "Arrange(&R):"
+      Height          =   180
+      Index           =   2
+      Left            =   120
+      TabIndex        =   5
+      Top             =   1020
+      Width           =   990
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "View(&V):"
+      Height          =   180
+      Index           =   1
+      Left            =   120
+      TabIndex        =   3
+      Top             =   660
+      Width           =   750
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "MousePointer(&M):"
+      Height          =   180
+      Index           =   0
+      Left            =   120
+      TabIndex        =   0
+      Top             =   270
+      Width           =   1545
+   End
+End
+Attribute VB_Name = "pagGeneral"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+Private m_ListViewEx As ListViewEditable
+
+Private Sub cboProp_Click(Index As Integer)
+   
+   With cboProp(Index)
+      'Debug.Print "cboProp(" & Index & ").Tag=" & .Tag
+      PropertyPage.Changed = ChangeTag(cboProp(Index), .ItemData(.ListIndex))
+      'Debug.Print "cboProp(" & Index & ").Tag=" & .Tag
+      'Debug.Print String(80, "-")
+   End With
+   
+End Sub
+
+Private Sub chkProp_Click(Index As Integer)
+   With chkProp(Index)
+      'Debug.Print "chkProp(" & Index & ").Tag=" & .Tag
+      PropertyPage.Changed = ChangeTag(chkProp(Index), Abs(.Value))
+      'Debug.Print "chkProp(" & Index & ").Tag=" & .Tag
+      'Debug.Print String(80, "-")
+   End With
+End Sub
+
+
+Private Sub PropertyPage_ApplyChanges()
+   Dim i As Long
+   Dim Ctrl As Control
+   For Each Ctrl In PropertyPage.Controls
+      With Ctrl
+         Select Case Ctrl.Name
+         Case "cboProp"
+            If Len(.Tag) > 0 Then
+               If IsChanged(Ctrl) Then
+                   'Debug.Print .Name & "(" & .Index & ") NewValue=" & GetNewValue(Ctrl)
+                  Select Case .Index
+                  Case 0: m_ListViewEx.MousePointer = Val(GetNewValue(Ctrl))
+                  Case 1: m_ListViewEx.View = Val(GetNewValue(Ctrl))
+                  Case 2: m_ListViewEx.Arrange = Val(GetNewValue(Ctrl))
+                  'Case 3: m_ListViewEx.LabelEdit = Val(GetNewValue(Ctrl))
+                  Case 4: m_ListViewEx.BorderStyle = Val(GetNewValue(Ctrl))
+                  Case 5: m_ListViewEx.Appearance = Val(GetNewValue(Ctrl))
+                  'Case 6: m_ListViewEx.OLEDragMode = Val(GetNewValue(Ctrl))
+                  'Case 7: m_ListViewEx.OLEDropMode = Val(GetNewValue(Ctrl))
+                  End Select
+               End If
+            End If
+         Case "chkProp"
+            If Len(.Tag) > 0 Then
+               If IsChanged(Ctrl) Then
+                   'Debug.Print .Name & "(" & .Index & ") NewValue=" & GetNewValue(Ctrl)
+                  Select Case .Index
+                  Case 0: m_ListViewEx.AllowColumnReorder = Val(GetNewValue(Ctrl))
+                  Case 1: m_ListViewEx.AllowItemEdit = Val(GetNewValue(Ctrl))
+                  Case 2: m_ListViewEx.AutoDeselect = Val(GetNewValue(Ctrl))
+                  Case 3: m_ListViewEx.AutoPopupMenu = Val(GetNewValue(Ctrl))
+                  Case 4: m_ListViewEx.AutoTooltip = Val(GetNewValue(Ctrl))
+                  Case 5: m_ListViewEx.Checkboxes = Val(GetNewValue(Ctrl))
+                  Case 6: m_ListViewEx.FlatHeader = Val(GetNewValue(Ctrl))
+                  Case 7: m_ListViewEx.FlatScrollBar = Val(GetNewValue(Ctrl))
+                  Case 8: m_ListViewEx.FullRowSelect = Val(GetNewValue(Ctrl))
+                  Case 9: m_ListViewEx.GridLines = Val(GetNewValue(Ctrl))
+                  Case 10: m_ListViewEx.HideSelection = Val(GetNewValue(Ctrl))
+                  Case 11: m_ListViewEx.HideColumnHeaders = Val(GetNewValue(Ctrl))
+                  Case 12: m_ListViewEx.HotTracking = Val(GetNewValue(Ctrl))
+                  Case 13: m_ListViewEx.HoverSelection = Val(GetNewValue(Ctrl))
+                  Case 14: m_ListViewEx.MultiSelect = Val(GetNewValue(Ctrl))
+                  Case 15: m_ListViewEx.SubitemSelect = Val(GetNewValue(Ctrl))
+                  Case 16: m_ListViewEx.Enabled = Val(GetNewValue(Ctrl))
+                  Case 17: m_ListViewEx.Visible = Val(GetNewValue(Ctrl))
+                  End Select
+               End If
+            End If
+         End Select
+      End With
+   Next
+End Sub
+
+Private Sub PropertyPage_SelectionChanged()
+   On Error GoTo Bye
+   Debug.Print TypeName(Me) & " - PropertyPage_SelectionChanged"
+   Set m_ListViewEx = PropertyPage.SelectedControls(0)
+   If ObjPtr(m_ListViewEx) = 0 Then
+      Exit Sub
+   End If
+   
+   With m_ListViewEx
+      'ComboBox
+      LoadMousePointerConstants cboProp(0), .MousePointer
+      LoadListViewConstants cboProp(1), .View
+      LoadListArrangeConstants cboProp(2), .Arrange
+      'LoadListLabelEditConstants cboProp(3), .LabelEdit
+      LoadBorderStyleConstants cboProp(4), .BorderStyle
+      LoadAppearanceConstants cboProp(5), .Appearance
+     'LoadOLEDragConstants cboProp(6), .OLEDragMode
+     'LoadOLEDropConstants cboProp(7), .OLEDropMode
+      
+      'CheckBox
+      LoadCheckBox chkProp(0), Abs(.AllowColumnReorder)
+      LoadCheckBox chkProp(1), Abs(.AllowItemEdit)
+      LoadCheckBox chkProp(2), Abs(.AutoDeselect)
+      LoadCheckBox chkProp(3), Abs(.AutoPopupMenu)
+      LoadCheckBox chkProp(4), Abs(.AutoTooltip)
+      LoadCheckBox chkProp(5), Abs(.Checkboxes)
+      LoadCheckBox chkProp(6), Abs(.FlatHeader)
+      LoadCheckBox chkProp(7), Abs(.FlatScrollBar)
+      LoadCheckBox chkProp(8), Abs(.FullRowSelect)
+      LoadCheckBox chkProp(9), Abs(.GridLines)
+      LoadCheckBox chkProp(10), Abs(.HideSelection)
+      LoadCheckBox chkProp(11), Abs(.HideColumnHeaders)
+      LoadCheckBox chkProp(12), Abs(.HotTracking)
+      LoadCheckBox chkProp(13), Abs(.HoverSelection)
+      LoadCheckBox chkProp(14), Abs(.MultiSelect)
+      LoadCheckBox chkProp(15), Abs(.SubitemSelect)
+      LoadCheckBox chkProp(16), Abs(.Enabled)
+      LoadCheckBox chkProp(17), Abs(.Visible)
+      DoEvents
+   End With
+   
+   Exit Sub
+Bye:
+   'Debug.Print Err.Number & ":" & Err.Description
+   'Debug.Assert 0
+   'Err.Raise Err.Number
+   MsgBox Err.Description
+End Sub

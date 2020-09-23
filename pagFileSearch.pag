@@ -1,0 +1,229 @@
+VERSION 5.00
+Begin VB.PropertyPage pagFileSearch 
+   Caption         =   "File Search"
+   ClientHeight    =   3090
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   7875
+   PaletteMode     =   0  '¹Ý¸í¾Ï
+   ScaleHeight     =   3090
+   ScaleWidth      =   7875
+   Begin VB.Frame fraFileSearch 
+      Caption         =   "File Search && DragDrop"
+      Height          =   2715
+      Left            =   120
+      TabIndex        =   0
+      Top             =   150
+      Width           =   7575
+      Begin VB.TextBox txtProp 
+         Height          =   280
+         Index           =   2
+         Left            =   2070
+         TabIndex        =   10
+         Top             =   1110
+         Width           =   1785
+      End
+      Begin VB.CheckBox chkProp 
+         Caption         =   "Include Folders in Search Results(&F)"
+         Height          =   210
+         Index           =   1
+         Left            =   210
+         TabIndex        =   9
+         Top             =   1920
+         Width           =   3975
+      End
+      Begin VB.CheckBox chkProp 
+         Caption         =   "Allow File and Folder DragDrop(&D)"
+         Height          =   210
+         Index           =   2
+         Left            =   210
+         TabIndex        =   8
+         Top             =   2190
+         Width           =   3285
+      End
+      Begin VB.CommandButton cmdDo 
+         Caption         =   "Browse...."
+         Height          =   300
+         Index           =   0
+         Left            =   6240
+         TabIndex        =   7
+         Top             =   360
+         Width           =   1185
+      End
+      Begin VB.CheckBox chkProp 
+         Caption         =   "Recursive Search(&R)"
+         Height          =   210
+         Index           =   0
+         Left            =   210
+         TabIndex        =   6
+         Top             =   1620
+         Width           =   2175
+      End
+      Begin VB.TextBox txtProp 
+         Height          =   280
+         Index           =   1
+         Left            =   2070
+         TabIndex        =   5
+         Top             =   750
+         Width           =   1785
+      End
+      Begin VB.ComboBox cboProp 
+         Height          =   300
+         Index           =   0
+         Left            =   3960
+         Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+         TabIndex        =   2
+         Top             =   750
+         Width           =   3465
+      End
+      Begin VB.TextBox txtProp 
+         Height          =   280
+         Index           =   0
+         Left            =   2070
+         TabIndex        =   1
+         Top             =   360
+         Width           =   4065
+      End
+      Begin VB.Label lblProp 
+         AutoSize        =   -1  'True
+         Caption         =   "UpdateFrequency(&U):"
+         Height          =   180
+         Index           =   2
+         Left            =   180
+         TabIndex        =   11
+         Top             =   1170
+         Width           =   1815
+      End
+      Begin VB.Label lblProp 
+         AutoSize        =   -1  'True
+         Caption         =   "Path(&P):"
+         Height          =   180
+         Index           =   0
+         Left            =   180
+         TabIndex        =   4
+         Top             =   420
+         Width           =   705
+      End
+      Begin VB.Label lblProp 
+         AutoSize        =   -1  'True
+         Caption         =   "FileSpec(&S):"
+         Height          =   180
+         Index           =   1
+         Left            =   180
+         TabIndex        =   3
+         Top             =   780
+         Width           =   1065
+      End
+   End
+End
+Attribute VB_Name = "pagFileSearch"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+Private m_ListViewEx As ListViewEditable
+
+Private Sub cboProp_Click(Index As Integer)
+   
+   Dim pos As Long, lpos As Long
+   Select Case Index
+   Case 0
+      With cboProp(0)
+         pos = InStr(1, .List(.ListIndex), "(") + 1
+         lpos = InStr(1, .List(.ListIndex), ")") - pos
+         txtProp(1).Text = Mid$(.List(.ListIndex), pos, lpos)
+      End With
+   End Select
+   
+End Sub
+
+Private Sub chkProp_Click(Index As Integer)
+   With chkProp(Index)
+      PropertyPage.Changed = ChangeTag(chkProp(Index), Abs(.Value))
+   End With
+End Sub
+
+Private Sub cmdDo_Click(Index As Integer)
+   Select Case Index
+   Case 0 'Browse
+      Dim strFolder As String
+      strFolder = m_ListViewEx.SelectDirectory(, PropertyPage.hWnd)
+      If Len(strFolder) Then
+         txtProp(0).Text = strFolder
+      End If
+   End Select
+End Sub
+
+Private Sub txtProp_Change(Index As Integer)
+   With txtProp(Index)
+      PropertyPage.Changed = ChangeTag(txtProp(Index), .Text)
+   End With
+End Sub
+
+Private Sub PropertyPage_ApplyChanges()
+   Dim i As Long
+   Dim Ctrl As Control
+   For Each Ctrl In PropertyPage.Controls
+      With Ctrl
+         Select Case Ctrl.Name
+         Case "chkProp"
+            If Len(.Tag) > 0 Then
+               If IsChanged(Ctrl) Then
+                  Select Case .Index
+                  Case 0: m_ListViewEx.Recursive = Val(GetNewValue(Ctrl))
+                  Case 1: m_ListViewEx.IncludeFolder = Val(GetNewValue(Ctrl))
+                  Case 2: m_ListViewEx.AllowFileDragDrop = Val(GetNewValue(Ctrl))
+                  End Select
+               End If
+            End If
+         Case "txtProp"
+            If Len(.Tag) > 0 Then
+               If IsChanged(Ctrl) Then
+                  Select Case .Index
+                  Case 0: m_ListViewEx.Path = GetNewValue(Ctrl)
+                  Case 1: m_ListViewEx.FileSpec = GetNewValue(Ctrl)
+                  Case 2: m_ListViewEx.UpdateFrequency = GetNewValue(Ctrl)
+                  End Select
+               End If
+            End If
+         End Select
+      End With
+   Next
+End Sub
+
+Private Sub PropertyPage_SelectionChanged()
+   On Error GoTo Bye
+   Debug.Print TypeName(Me) & " - PropertyPage_SelectionChanged"
+   Set m_ListViewEx = PropertyPage.SelectedControls(0)
+   If ObjPtr(m_ListViewEx) = 0 Then
+      Exit Sub
+   End If
+
+   With m_ListViewEx
+      'ComboBox
+      Dim sFileSpec As String
+      sFileSpec = LoadFileSpecs(cboProp(0), .FileSpec)
+      
+      'TextBox
+      LoadTextBox txtProp(0), .Path
+      LoadTextBox txtProp(1), sFileSpec
+      LoadTextBox txtProp(2), .UpdateFrequency
+
+      'CheckBox
+      LoadCheckBox chkProp(0), Abs(.Recursive)
+      LoadCheckBox chkProp(1), Abs(.IncludeFolder)
+      LoadCheckBox chkProp(2), Abs(.AllowFileDragDrop)
+      
+      PropertyPage.Changed = False
+   End With
+
+   Exit Sub
+Bye:
+   'Debug.Print Err.Number & ":" & Err.Description
+   'Debug.Assert 0
+   'Err.Raise Err.Number
+   MsgBox Err.Description
+End Sub
+
+

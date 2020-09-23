@@ -1,0 +1,359 @@
+VERSION 5.00
+Begin VB.PropertyPage pagColumnHeaders 
+   Caption         =   "Column Headers"
+   ClientHeight    =   3090
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   7545
+   PaletteMode     =   0  '¹Ý¸í¾Ï
+   ScaleHeight     =   3090
+   ScaleWidth      =   7545
+   Begin VB.ComboBox cboProp 
+      Height          =   300
+      Index           =   1
+      Left            =   1710
+      Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+      TabIndex        =   14
+      Top             =   990
+      Width           =   2565
+   End
+   Begin VB.CommandButton cmdDo 
+      Caption         =   "Remove Column(&R)"
+      Height          =   280
+      Index           =   2
+      Left            =   5370
+      TabIndex        =   13
+      Top             =   210
+      Width           =   2000
+   End
+   Begin VB.HScrollBar hsbIndex 
+      Height          =   315
+      Left            =   2640
+      TabIndex        =   12
+      Top             =   210
+      Width           =   495
+   End
+   Begin VB.CommandButton cmdDo 
+      Caption         =   "Insert New(&N)"
+      Height          =   280
+      Index           =   1
+      Left            =   3270
+      TabIndex        =   11
+      Top             =   210
+      Width           =   2000
+   End
+   Begin VB.TextBox txtProp 
+      Height          =   280
+      Index           =   3
+      Left            =   1710
+      TabIndex        =   10
+      Top             =   2100
+      Width           =   2565
+   End
+   Begin VB.TextBox txtProp 
+      Height          =   280
+      Index           =   2
+      Left            =   1710
+      TabIndex        =   8
+      Top             =   1740
+      Width           =   2565
+   End
+   Begin VB.TextBox txtProp 
+      Height          =   280
+      Index           =   1
+      Left            =   1680
+      TabIndex        =   7
+      Top             =   600
+      Width           =   5685
+   End
+   Begin VB.TextBox txtProp 
+      BackColor       =   &H80000000&
+      Height          =   280
+      Index           =   0
+      Left            =   1680
+      Locked          =   -1  'True
+      TabIndex        =   2
+      Top             =   210
+      Width           =   915
+   End
+   Begin VB.ComboBox cboProp 
+      Height          =   300
+      Index           =   0
+      Left            =   1710
+      Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+      TabIndex        =   1
+      Top             =   1350
+      Width           =   2565
+   End
+   Begin VB.CommandButton cmdDo 
+      Caption         =   "Revert to Defaullt"
+      Height          =   285
+      Index           =   0
+      Left            =   1710
+      TabIndex        =   0
+      Top             =   2550
+      Width           =   2565
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "Data Type(&D):"
+      Height          =   180
+      Index           =   7
+      Left            =   210
+      TabIndex        =   15
+      Top             =   1050
+      Width           =   1200
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "Key(&K):"
+      Height          =   180
+      Index           =   4
+      Left            =   210
+      TabIndex        =   9
+      Top             =   2160
+      Width           =   660
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "Index(&I):"
+      Height          =   180
+      Index           =   0
+      Left            =   180
+      TabIndex        =   6
+      Top             =   270
+      Width           =   720
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "Text(&T):"
+      Height          =   180
+      Index           =   1
+      Left            =   180
+      TabIndex        =   5
+      Top             =   630
+      Width           =   705
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "Alignment(&M):"
+      Height          =   180
+      Index           =   2
+      Left            =   210
+      TabIndex        =   4
+      Top             =   1410
+      Width           =   1215
+   End
+   Begin VB.Label lblProp 
+      AutoSize        =   -1  'True
+      Caption         =   "Width(&W):"
+      Height          =   180
+      Index           =   3
+      Left            =   210
+      TabIndex        =   3
+      Top             =   1800
+      Width           =   810
+   End
+End
+Attribute VB_Name = "pagColumnHeaders"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+Private m_ListViewEx As ListViewEditable
+Private m_colHeaders As New ColHeaders
+
+Private Sub cboProp_Click(Index As Integer)
+   Dim lIndex As Long
+   lIndex = Val(txtProp(0).Text)
+   'Debug.Assert lIndex = hsbIndex.Value
+   If lIndex > 0 And lIndex <= m_colHeaders.Count Then
+      ''PropertyPage.Changed = True
+      Select Case Index
+      Case 0:
+          m_colHeaders(lIndex).Alignment = cboProp(0).ListIndex
+      Case 1
+          m_colHeaders(lIndex).DataType = cboProp(1).ListIndex
+      End Select
+      'PropertyPage.Changed = m_colHeaders.Changed
+   End If
+   
+End Sub
+
+
+Private Sub txtProp_Change(Index As Integer)
+   Dim lIndex As Long
+   lIndex = Val(txtProp(0).Text)
+   'Debug.Assert lIndex = hsbIndex.Value
+   If lIndex > 0 And lIndex <= m_colHeaders.Count Then
+      ''PropertyPage.Changed = True
+      Select Case Index
+      Case 1
+         m_colHeaders(lIndex).Text = txtProp(1).Text
+      Case 2
+         m_colHeaders(lIndex).Width = Val(txtProp(2).Text)
+      Case 3
+         m_colHeaders(lIndex).Key = txtProp(3).Text
+      End Select
+      'PropertyPage.Changed = m_colHeaders.Changed
+   End If
+End Sub
+
+
+Private Sub PropertyPage_ApplyChanges()
+   'Debug.Print "$$$$ PropertyPage_ApplyChanges"
+   'm_colHeaders.Walk
+End Sub
+
+Private Sub PropertyPage_Terminate()
+   'Debug.Print "$$$$ PropertyPage_Terminate"
+   m_colHeaders.SetColumnHeaders m_ListViewEx.ColumnHeaders
+   m_ListViewEx.ColumnHeadersText = m_colHeaders.GetTagText
+   'Debug.Print m_colHeaders.GetTagText
+   'Debug.Print "$$$$ ÇÏÇÏÇÏ"
+   'Debug.Print PropertyPage.ActiveControl.Name
+End Sub
+
+Private Sub cmdDo_Click(Index As Integer)
+
+   Dim ctl As Object
+   
+   Select Case Index
+   Case 0 'Revert to default
+      
+      'PropertyPage.Changed = True
+      
+      cboProp(0).ListIndex = lvwColumnLeft 'Alignment
+      cboProp(1).ListIndex = ldtString 'DataType
+      txtProp(1).Text = "New Text" 'Text
+      txtProp(2).Text = "1500.00" 'Width
+      txtProp(3).Text = "" 'Key
+      
+   Case 1 'Insert New
+      
+      'PropertyPage.Changed = True
+      
+      With m_colHeaders
+         If hsbIndex.Value = 0 Then
+            With .AddEx()
+               .Alignment = lvwColumnLeft  'cboProp(0).ListIndex
+               .DataType = ldtString 'cboProp(1).ListIndex
+               .Text = "" 'txtProp(1).Text
+               .Width = "1500.00" 'txtProp(2).Text
+               .Key = "" 'txtProp(3).Text
+            End With
+         Else
+            With .AddEx(, , , hsbIndex.Value)
+               .Alignment = lvwColumnLeft  'cboProp(0).ListIndex
+               .DataType = ldtString 'cboProp(1).ListIndex
+               .Text = "" 'txtProp(1).Text
+               .Width = "1500.00" 'txtProp(2).Text
+               .Key = "" 'txtProp(3).Text
+            End With
+         End If
+         'Debug.Print hsbIndex.Value
+         hsbIndex.Max = .Count
+         'Debug.Print hsbIndex.Value
+         On Error Resume Next
+         hsbIndex.Value = hsbIndex.Value + 1
+         On Error GoTo 0
+         For Each ctl In PropertyPage.Controls
+            ctl.Enabled = True
+         Next ctl
+      End With
+      
+   Case 2 'Remove
+   
+      'PropertyPage.Changed = True
+      
+      With m_colHeaders
+         .Remove hsbIndex.Value
+         If .Count = 0 Then
+            'hsbIndex.Min = 0
+            hsbIndex.Max = 0
+            hsbIndex.Value = 0
+            For Each ctl In PropertyPage.Controls
+               ctl.Enabled = InStr(1, ctl.Name, "lbl") = 1
+            Next ctl
+            cmdDo(1).Enabled = True 'Insert New(&N)
+            cboProp(0).ListIndex = -1 'Alignment
+            cboProp(1).ListIndex = -1 'DataType
+            txtProp(0).Text = "" 'Index
+            txtProp(1).Text = "" 'Text
+            txtProp(2).Text = "" 'Width
+            txtProp(3).Text = "" 'Key
+         Else
+            hsbIndex.Max = .Count
+            If hsbIndex.Value <= .Count Then
+               Call hsbIndex_Change
+            Else
+               hsbIndex.Value = .Count - 1
+            End If
+         End If
+      End With
+      
+   End Select
+End Sub
+
+Private Sub hsbIndex_Change()
+   If hsbIndex.Value > 0 Then
+      With m_colHeaders(hsbIndex.Value)
+         txtProp(0).Text = hsbIndex.Value
+         cboProp(0).ListIndex = .Alignment
+         cboProp(1).ListIndex = .DataType
+         txtProp(1).Text = .Text
+         txtProp(2).Text = .Width
+         txtProp(3).Text = .Key
+      End With
+   End If
+End Sub
+
+
+Private Sub PropertyPage_SelectionChanged()
+   On Error GoTo Bye
+   Set m_ListViewEx = PropertyPage.SelectedControls(0)
+   If ObjPtr(m_ListViewEx) = 0 Then
+      Exit Sub
+   End If
+      
+   With m_ListViewEx
+      
+      'ComboBox
+      LoadListColumnAlignmentConstants cboProp(0), lvwColumnLeft
+      LoadeListColumnDataType cboProp(1), ldtString
+      
+      'TextBox
+      LoadTextBox txtProp(0), .CurrrentHighlightColumn
+      
+   End With
+   
+   Set m_colHeaders = New ColHeaders
+   m_colHeaders.AddFromColumnHeaders m_ListViewEx.ColumnHeaders
+   'DoEvents
+   
+   With hsbIndex
+      If m_colHeaders.Count = 0 Then
+         .Enabled = False
+         Dim ctl As Object
+         For Each ctl In PropertyPage.Controls
+            ctl.Enabled = InStr(1, ctl.Name, "lbl") = 1
+         Next ctl
+         cmdDo(1).Enabled = True 'Insert New(&N)
+      Else
+         .Enabled = True
+         .Max = m_colHeaders.Count
+         .Min = 1
+         .Value = 1
+      End If
+   End With
+   DoEvents
+   Exit Sub
+Bye:
+   'Debug.Print Err.Number & ":" & Err.Description
+   'Debug.Assert 0
+   'Err.Raise Err.Number
+   MsgBox Err.Description
+End Sub
+
+

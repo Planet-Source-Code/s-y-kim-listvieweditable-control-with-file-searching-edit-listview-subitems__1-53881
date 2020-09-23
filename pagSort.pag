@@ -1,0 +1,174 @@
+VERSION 5.00
+Begin VB.PropertyPage pagSort 
+   Caption         =   "Sorting"
+   ClientHeight    =   1995
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   4560
+   LockControls    =   -1  'True
+   PaletteMode     =   0  '¹Ý¸í¾Ï
+   ScaleHeight     =   1995
+   ScaleWidth      =   4560
+   Begin VB.Frame fraSort 
+      Caption         =   "Sorting"
+      Height          =   1635
+      Left            =   180
+      TabIndex        =   0
+      Top             =   180
+      Width           =   4185
+      Begin VB.TextBox txtProp 
+         Height          =   280
+         Index           =   0
+         Left            =   1410
+         TabIndex        =   4
+         Top             =   570
+         Width           =   2355
+      End
+      Begin VB.ComboBox cboProp 
+         Height          =   300
+         Index           =   0
+         Left            =   1410
+         Style           =   2  'µå·Ó´Ù¿î ¸ñ·Ï
+         TabIndex        =   2
+         Top             =   930
+         Width           =   2355
+      End
+      Begin VB.CheckBox chkProp 
+         Caption         =   "Sorted(&T)"
+         Height          =   210
+         Index           =   0
+         Left            =   210
+         TabIndex        =   1
+         Top             =   330
+         Width           =   1275
+      End
+      Begin VB.Label lblProp 
+         AutoSize        =   -1  'True
+         Caption         =   "SortOrder(&O):"
+         Height          =   180
+         Index           =   1
+         Left            =   210
+         TabIndex        =   5
+         Top             =   990
+         Width           =   1140
+      End
+      Begin VB.Label lblProp 
+         AutoSize        =   -1  'True
+         Caption         =   "SortKey(&K):"
+         Height          =   180
+         Index           =   0
+         Left            =   210
+         TabIndex        =   3
+         Top             =   630
+         Width           =   1170
+      End
+   End
+End
+Attribute VB_Name = "pagSort"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+Private m_ListViewEx As ListViewEditable
+
+Private Sub cboProp_Click(Index As Integer)
+   
+   With cboProp(Index)
+      PropertyPage.Changed = ChangeTag(cboProp(Index), .ItemData(.ListIndex))
+   End With
+   
+End Sub
+
+Private Sub chkProp_Click(Index As Integer)
+   With chkProp(Index)
+      PropertyPage.Changed = ChangeTag(chkProp(Index), Abs(.Value))
+      Select Case Index
+      Case 0
+         cboProp(0).Enabled = Abs(.Value)
+         txtProp(0).Enabled = Abs(.Value)
+         lblProp(0).Enabled = Abs(.Value)
+         lblProp(1).Enabled = Abs(.Value)
+      End Select
+   End With
+End Sub
+
+Private Sub txtProp_Change(Index As Integer)
+   With txtProp(Index)
+      PropertyPage.Changed = ChangeTag(txtProp(Index), .Text)
+   End With
+End Sub
+
+
+Private Sub PropertyPage_ApplyChanges()
+   Dim i As Long
+   Dim Ctrl As Control
+   For Each Ctrl In PropertyPage.Controls
+      With Ctrl
+         Select Case Ctrl.Name
+         Case "cboProp"
+            If Len(.Tag) > 0 Then
+               If IsChanged(Ctrl) Then
+                   'Debug.Print .Name & "(" & .Index & ") NewValue=" & GetNewValue(Ctrl)
+                  Select Case .Index
+                  Case 0: m_ListViewEx.SortOrder = Val(GetNewValue(Ctrl))
+                  End Select
+               End If
+            End If
+         Case "chkProp"
+            If Len(.Tag) > 0 Then
+               If IsChanged(Ctrl) Then
+                  Select Case .Index
+                  Case 0: m_ListViewEx.Sorted = Val(GetNewValue(Ctrl))
+                  End Select
+               End If
+            End If
+         Case "txtProp"
+            If Len(.Tag) > 0 Then
+               If IsChanged(Ctrl) Then
+                  Select Case .Index
+                  Case 0: m_ListViewEx.SortKey = Val(GetNewValue(Ctrl))
+                  End Select
+               End If
+            End If
+         End Select
+      End With
+   Next
+End Sub
+
+Private Sub PropertyPage_SelectionChanged()
+   On Error GoTo Bye
+   Debug.Print TypeName(Me) & " - PropertyPage_SelectionChanged"
+   Set m_ListViewEx = PropertyPage.SelectedControls(0)
+   If ObjPtr(m_ListViewEx) = 0 Then
+      Exit Sub
+   End If
+   
+   With m_ListViewEx
+      'ComboBox
+      LoadListSortOrderConstants cboProp(0), .SortOrder
+      
+      'TextBox
+      LoadTextBox txtProp(0), .SortKey
+      
+      'CheckBox
+      LoadCheckBox chkProp(0), Abs(.Sorted)
+   End With
+   
+   With chkProp(0)
+      cboProp(0).Enabled = Abs(.Value)
+      txtProp(0).Enabled = Abs(.Value)
+      lblProp(0).Enabled = Abs(.Value)
+      lblProp(1).Enabled = Abs(.Value)
+   End With
+   
+   DoEvents
+   
+   Exit Sub
+Bye:
+   'Debug.Print Err.Number & ":" & Err.Description
+   'Debug.Assert 0
+   'Err.Raise Err.Number
+   MsgBox Err.Description
+End Sub
+
